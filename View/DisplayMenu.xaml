@@ -1,0 +1,57 @@
+﻿<Page x:Class="CrecheApplication.View.DisplayMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CrecheApplication.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DisplayMenu">
+
+    <Grid x:Name="MainArea" Grid.Row="1">
+        <Grid x:Name="MenuPage">
+            <Image Source="./../Images/food1.png" 
+                   Width="160" 
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Right"
+                   Margin="0,10,20,0"/>
+
+            <materialDesign:Card Width="200" Height="250" Margin="10,0,10,30">
+                <TextBlock TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="./../Fonts/#Pacifico"
+                           Text="{Binding Path= MenuOfTheDay,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Mode=TwoWay,
+                                        ValidatesOnDataErrors=True}"/>
+            </materialDesign:Card>
+
+            <Image Source="./../Images/food2.png" 
+                   Width="120" 
+                   VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left"
+                   Margin="20,0,0,0"/>
+
+            <Button x:Name="ButtonCheckAllergies"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                            ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                            IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,40,40"
+                            Width="50"
+                            Height="50"
+                            Click="CheckAllergies">
+                <materialDesign:PackIcon Kind="Allergen" Width="25" Height="25" />
+            </Button>
+        </Grid>
+    </Grid>
+</Page>

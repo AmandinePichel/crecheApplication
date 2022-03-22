@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="CrecheApplication.View.Activity"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CrecheApplication.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="Transparent"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="700">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="./../Fonts/#Waterfall"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Un petit pas en avant"
+               VerticalAlignment="Center"
+               FontSize="50"></Label>
+        <Button x:Name="ButtonAddActivity"
+                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                ToolTip="MaterialDesignFloatingActionMiniLightButton"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                HorizontalAlignment="Right"
+                Margin="0,0,100,0"
+                Width="50"
+                Height="50"
+                Click="AddActivity">
+            <materialDesign:PackIcon Kind="AddToPhotos" />
+        </Button>
+
+
+        <Grid x:Name="MainArea" Grid.Row="1">
+            <Grid x:Name="ActivityPage">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         ItemsSource="{Binding ActivitiesListBox}"
+                         SelectedItem="{Binding SelectedActivity, Mode=TwoWay}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,30,0,0" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter Property="IsSelected" Value="True" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="196" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding Photo}"
+                                            Height="140"
+                                            Width="196"
+                                            Stretch="UniformToFill"
+                                            RenderTransformOrigin="0.5,0.5">
+                                        <Image.RenderTransform>
+                                            <RotateTransform Angle="90"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                    <StackPanel Grid.Row="1" Margin="8 24 8 0" >
+                                        <TextBlock
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Name}"/>
+                                    </StackPanel>
+                                    <StackPanel
+                                            HorizontalAlignment="Right"
+                                            Grid.Row="2"
+                                            Orientation="Horizontal"
+                                            Margin="8">
+                                        <materialDesign:PopupBox
+                                                Style="{StaticResource MaterialDesignToolPopupBox}"
+                                                Padding="2 0 2 0">
+                                            <StackPanel>
+                                                <Button Content="Modifier" Command="{Binding DataContext.DisplayActivityInfos, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                                                <Button Content="Supprimer" Command="{Binding DataContext.DeleteActivity, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                                            </StackPanel>
+                                        </materialDesign:PopupBox>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

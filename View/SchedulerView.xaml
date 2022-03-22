@@ -1,0 +1,393 @@
+﻿<UserControl x:Class="CrecheApplication.View.SchedulerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CrecheApplication.View"
+        mc:Ignorable="d"
+        d:DesignHeight="450" d:DesignWidth="800"
+        Background="Transparent">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="Helvetica"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Margin" Value="30,0,5,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="20"
+                                BorderThickness="2.3"
+                                BorderBrush="White">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Opacity" Value="0.4"/>
+                    <Setter Property="Foreground" Value="DeepSkyBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True" >
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="./../Fonts/#Waterfall"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border CornerRadius="10" Grid.RowSpan="4" Grid.ColumnSpan="6">
+            <Border.Background>
+                <SolidColorBrush Color="Transparent"/>
+            </Border.Background>
+        </Border>
+
+        <!-- Moments de la journée -->
+        <Label Grid.Row="1" Grid.Column="0" Content="Matinnée" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="Black" FontSize="12" FontFamily="./../Fonts/#Pacifico"/>
+        <Image Grid.Row="1" Grid.Column="0" Source="./../Images/arrow.png" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,5,105"/>
+        <Image Grid.Row="1" Grid.Column="0" Source="./../Images/kids.png" Width="60" Height="60" Margin="0,50,0,0"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Après-midi" VerticalAlignment="top" HorizontalAlignment="Center" Foreground="Black" FontSize="12" FontFamily="./../Fonts/#Pacifico"/>
+        <Image Grid.Row="3" Grid.Column="0" Source="./../Images/arrow.png" Width="40" Height="40" HorizontalAlignment="Right" Margin="0,0,5,105"/>
+
+        <!-- Jours de la semaine -->
+        <Label Name="MondayLabel" Grid.Row="0" Grid.Column="1" Content="{Binding days}" Background="Violet">
+            <Label.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label>
+                            <Label.Content>
+                                <WrapPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Lundi "/>
+                                    <TextBlock Text="{Binding Monday}" />
+                                </WrapPanel>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </DataTemplate>
+            </Label.ContentTemplate>
+        </Label>
+
+        <Label Grid.Row="0" Grid.Column="2" Content="{Binding days}" Background="BlueViolet">
+            <Label.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label>
+                            <Label.Content>
+                                <WrapPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Mardi "/>
+                                    <TextBlock Text="{Binding Tuesday}" />
+                                </WrapPanel>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </DataTemplate>
+            </Label.ContentTemplate>
+        </Label>
+
+        <Label Grid.Row="0" Grid.Column="3" Content="{Binding days}" Background="CadetBlue">
+            <Label.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label>
+                            <Label.Content>
+                                <WrapPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Mercredi "/>
+                                    <TextBlock Text="{Binding Wednesday}" />
+                                </WrapPanel>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </DataTemplate>
+            </Label.ContentTemplate>
+        </Label>
+
+        <Label Grid.Row="0" Grid.Column="4" Content="{Binding days}" Background="IndianRed">
+            <Label.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label>
+                            <Label.Content>
+                                <WrapPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Jeudi "/>
+                                    <TextBlock Text="{Binding Thursday}" />
+                                </WrapPanel>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </DataTemplate>
+            </Label.ContentTemplate>
+        </Label>
+
+        <Label Grid.Row="0" Grid.Column="5"  Content="{Binding days}" Background="Orange">
+            <Label.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label>
+                            <Label.Content>
+                                <WrapPanel HorizontalAlignment="Stretch">
+                                    <TextBlock Text="Vendredi "/>
+                                    <TextBlock Text="{Binding Friday}" />
+                                </WrapPanel>
+                            </Label.Content>
+                        </Label>
+                    </StackPanel>
+                </DataTemplate>
+            </Label.ContentTemplate>
+        </Label>
+
+        <!-- Cases de la grille sur lesquelles sont affichées le noms des enfants qui viennent au moment indiqué-->
+        <ListBox Name="MondayAM" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding kidsForMondayAM}" SelectedItem="{Binding Path=SelectedChild}" Background="Violet" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="MondayPM" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding kidsForMondayPM}" SelectedItem="{Binding Path=SelectedChild}" Background="Violet" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="TuesdayAM" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding kidsForTuesdayAM}" SelectedItem="{Binding Path=SelectedChild}" Background="BlueViolet" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="TuesdayPM" Grid.Row="3" Grid.Column="2" ItemsSource="{Binding kidsForTuesdayPM}" SelectedItem="{Binding Path=SelectedChild}" Background="BlueViolet" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="WednesdayAM" Grid.Row="1" Grid.Column="3" ItemsSource="{Binding kidsForWednesdayAM}" SelectedItem="{Binding Path=SelectedChild}" Background="CadetBlue" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="WednesdayPM" Grid.Row="3" Grid.Column="3" ItemsSource="{Binding kidsForWednesdayPM}" SelectedItem="{Binding Path=SelectedChild}" Background="CadetBlue" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="ThursdayAM" Grid.Row="1" Grid.Column="4" ItemsSource="{Binding kidsForThursdayAM}" SelectedItem="{Binding Path=SelectedChild}" Background="IndianRed" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="ThursdayPM" Grid.Row="3" Grid.Column="4" ItemsSource="{Binding kidsForThursdayPM}" SelectedItem="{Binding Path=SelectedChild}" Background="IndianRed" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="FridayAM" Grid.Row="1" Grid.Column="5" ItemsSource="{Binding kidsForFridayAM}" SelectedItem="{Binding Path=SelectedChild}" Background="Orange" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="FridayPM" Grid.Row="3" Grid.Column="5" ItemsSource="{Binding kidsForFridayPM}" SelectedItem="{Binding Path=SelectedChild}" Background="Orange" Opacity="0.5">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding FullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--Boutons permettant d'ajouter la présence d'un enfant-->
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidMondayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidMondayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidTuesdayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="2"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidTuesdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="3"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidWednesdayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="3"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidWednesdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="4"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidThursdayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="4"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidThursdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="5"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidFridayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="5"
+                HorizontalAlignment="Right"
+                Content="+" 
+                Command="{Binding AddKidStayingMoment}" CommandParameter="AddKidFridayPM">
+        </Button>
+
+        <!--Boutons permettant de supprimer la présence d'un enfant-->
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidMondayAM"
+                >
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="1"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidMondayPM" >
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="2"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidTuesdayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="2"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidTuesdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="3"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidWednesdayAM" >
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="3"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidWednesdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="4"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidThursdayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="4"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidThursdayPM">
+        </Button>
+        <Button Grid.Row="1"
+                Grid.Column="5"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidFridayAM">
+        </Button>
+        <Button Grid.Row="3"
+                Grid.Column="5"
+                Content="-"
+                Command="{Binding DeleteKidStayingMoment}" CommandParameter="DeleteKidFridayPM">
+        </Button>
+    </Grid>
+</UserControl>
