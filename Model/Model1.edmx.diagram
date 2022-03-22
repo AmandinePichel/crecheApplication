@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c122967442284d988769b1d4872f94a3" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="CrecheModel.Child" Width="1.5" PointX="2.25" PointY="0.5" />
+        <EntityTypeShape EntityType="CrecheModel.ChildSchedule" Width="1.5" PointX="5.25" PointY="0.75" />
+        <AssociationConnector Association="CrecheModel.FK__ChildSche__fk_Ch__36B12243" />
+        <EntityTypeShape EntityType="CrecheModel.Schedule" Width="1.5" PointX="7.625" PointY="2.125" />
+        <AssociationConnector Association="CrecheModel.FK__ChildSche__fk_Sc__3D5E1FD2" />
+        <EntityTypeShape EntityType="CrecheModel.Food" Width="1.5" PointX="11.875" PointY="1.625" />
+        <EntityTypeShape EntityType="CrecheModel.User" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="CrecheModel.FK_Child_Utilisateur" />
+        <EntityTypeShape EntityType="CrecheModel.Activity" Width="1.5" PointX="9.75" PointY="3.25" />
+        <EntityTypeShape EntityType="CrecheModel.Menu" Width="1.5" PointX="12" PointY="4.875" />
+        <EntityTypeShape EntityType="CrecheModel.ChildActivity" Width="1.5" PointX="7.375" PointY="4.625" />
+        <EntityTypeShape EntityType="CrecheModel.ChildFood" Width="1.5" PointX="9.5" PointY="0.5" />
+        <EntityTypeShape EntityType="CrecheModel.UserActivity" Width="1.5" PointX="4.75" PointY="5.375" />
+        <AssociationConnector Association="CrecheModel.FK_ChildActivity_Activity" />
+        <AssociationConnector Association="CrecheModel.FK_UserActivity_Activity" />
+        <AssociationConnector Association="CrecheModel.FK_ChildActivity_Child" />
+        <AssociationConnector Association="CrecheModel.FK_ChildFood_Child" />
+        <AssociationConnector Association="CrecheModel.FK_ChildFood_Food" />
+        <AssociationConnector Association="CrecheModel.FK_UserActivity_User" />
+        <AssociationConnector Association="CrecheModel.FK__Food__fk_menu__02FC7413" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

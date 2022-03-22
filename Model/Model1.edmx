@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CrecheModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityID" />
+          </Key>
+          <Property Name="ActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Photo" Type="varchar" MaxLength="500" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="dayDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Child">
+          <Key>
+            <PropertyRef Name="KidID" />
+          </Key>
+          <Property Name="KidID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Firstname" Type="varchar" MaxLength="50" />
+          <Property Name="fk_parent" Type="int" />
+          <Property Name="Birthdate" Type="date" />
+          <Property Name="Address" Type="varchar" MaxLength="300" />
+          <Property Name="Photo" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ChildActivity">
+          <Key>
+            <PropertyRef Name="ChildActivityID" />
+          </Key>
+          <Property Name="ChildActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fk_Child" Type="int" />
+          <Property Name="Fk_Activity" Type="int" />
+        </EntityType>
+        <EntityType Name="ChildFood">
+          <Key>
+            <PropertyRef Name="ChildFoodID" />
+          </Key>
+          <Property Name="ChildFoodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fk_Child" Type="int" />
+          <Property Name="Fk_Food" Type="int" />
+        </EntityType>
+        <EntityType Name="ChildSchedule">
+          <Key>
+            <PropertyRef Name="ChildScheduleID" />
+          </Key>
+          <Property Name="ChildScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fk_Child" Type="int" />
+          <Property Name="fk_Schedule" Type="int" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodID" />
+          </Key>
+          <Property Name="FoodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="fk_menu" Type="int" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="dayDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Moment" Type="varchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Firstname" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="500" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserActivity">
+          <Key>
+            <PropertyRef Name="UserActivityID" />
+          </Key>
+          <Property Name="UserActivityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fk_User" Type="int" />
+          <Property Name="Fk_Activity" Type="int" />
+        </EntityType>
+        <Association Name="FK__ChildSche__fk_Ch__36B12243">
+          <End Role="Child" Type="Self.Child" Multiplicity="0..1" />
+          <End Role="ChildSchedule" Type="Self.ChildSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildSchedule">
+              <PropertyRef Name="fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ChildSche__fk_Sc__3D5E1FD2">
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="0..1" />
+          <End Role="ChildSchedule" Type="Self.ChildSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ScheduleID" />
+            </Principal>
+            <Dependent Role="ChildSchedule">
+              <PropertyRef Name="fk_Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Food__fk_menu__02FC7413">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="0..1" />
+          <End Role="Food" Type="Self.Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuID" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="fk_menu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Child_Utilisateur">
+          <End Role="User" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="fk_parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildActivity_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="0..1" />
+          <End Role="ChildActivity" Type="Self.ChildActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="ChildActivity">
+              <PropertyRef Name="Fk_Activity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildActivity_Child">
+          <End Role="Child" Type="Self.Child" Multiplicity="0..1" />
+          <End Role="ChildActivity" Type="Self.ChildActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildActivity">
+              <PropertyRef Name="Fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildFood_Child">
+          <End Role="Child" Type="Self.Child" Multiplicity="0..1" />
+          <End Role="ChildFood" Type="Self.ChildFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildFood">
+              <PropertyRef Name="Fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildFood_Food">
+          <End Role="Food" Type="Self.Food" Multiplicity="0..1" />
+          <End Role="ChildFood" Type="Self.ChildFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodID" />
+            </Principal>
+            <Dependent Role="ChildFood">
+              <PropertyRef Name="Fk_Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActivity_Activity">
+          <End Role="Activity" Type="Self.Activity" Multiplicity="0..1" />
+          <End Role="UserActivity" Type="Self.UserActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="UserActivity">
+              <PropertyRef Name="Fk_Activity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActivity_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="UserActivity" Type="Self.UserActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserActivity">
+              <PropertyRef Name="Fk_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrecheModelStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChildActivity" EntityType="Self.ChildActivity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChildFood" EntityType="Self.ChildFood" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChildSchedule" EntityType="Self.ChildSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food" EntityType="Self.Food" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserActivity" EntityType="Self.UserActivity" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ChildSche__fk_Ch__36B12243" Association="Self.FK__ChildSche__fk_Ch__36B12243">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildSchedule" EntitySet="ChildSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ChildSche__fk_Sc__3D5E1FD2" Association="Self.FK__ChildSche__fk_Sc__3D5E1FD2">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="ChildSchedule" EntitySet="ChildSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Food__fk_menu__02FC7413" Association="Self.FK__Food__fk_menu__02FC7413">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Child_Utilisateur" Association="Self.FK_Child_Utilisateur">
+            <End Role="User" EntitySet="User" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildActivity_Activity" Association="Self.FK_ChildActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ChildActivity" EntitySet="ChildActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildActivity_Child" Association="Self.FK_ChildActivity_Child">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildActivity" EntitySet="ChildActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildFood_Child" Association="Self.FK_ChildFood_Child">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildFood" EntitySet="ChildFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildFood_Food" Association="Self.FK_ChildFood_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="ChildFood" EntitySet="ChildFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActivity_Activity" Association="Self.FK_UserActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="UserActivity" EntitySet="UserActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActivity_User" Association="Self.FK_UserActivity_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserActivity" EntitySet="UserActivity" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CrecheModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CrecheEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Child" EntityType="CrecheModel.Child" />
+          <EntitySet Name="ChildSchedule" EntityType="CrecheModel.ChildSchedule" />
+          <AssociationSet Name="FK__ChildSche__fk_Ch__36B12243" Association="CrecheModel.FK__ChildSche__fk_Ch__36B12243">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildSchedule" EntitySet="ChildSchedule" />
+          </AssociationSet>
+          <EntitySet Name="Schedule" EntityType="CrecheModel.Schedule" />
+          <AssociationSet Name="FK__ChildSche__fk_Sc__3D5E1FD2" Association="CrecheModel.FK__ChildSche__fk_Sc__3D5E1FD2">
+            <End Role="Schedule" EntitySet="Schedule" />
+            <End Role="ChildSchedule" EntitySet="ChildSchedule" />
+          </AssociationSet>
+          <EntitySet Name="Food" EntityType="CrecheModel.Food" />
+          <EntitySet Name="User" EntityType="CrecheModel.User" />
+          <AssociationSet Name="FK_Child_Utilisateur" Association="CrecheModel.FK_Child_Utilisateur">
+            <End Role="User" EntitySet="User" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <EntitySet Name="Activity" EntityType="CrecheModel.Activity" />
+          <EntitySet Name="Menu" EntityType="CrecheModel.Menu" />
+          <EntitySet Name="ChildActivity" EntityType="CrecheModel.ChildActivity" />
+          <EntitySet Name="ChildFood" EntityType="CrecheModel.ChildFood" />
+          <EntitySet Name="UserActivity" EntityType="CrecheModel.UserActivity" />
+          <AssociationSet Name="FK_ChildActivity_Activity" Association="CrecheModel.FK_ChildActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="ChildActivity" EntitySet="ChildActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActivity_Activity" Association="CrecheModel.FK_UserActivity_Activity">
+            <End Role="Activity" EntitySet="Activity" />
+            <End Role="UserActivity" EntitySet="UserActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildActivity_Child" Association="CrecheModel.FK_ChildActivity_Child">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildActivity" EntitySet="ChildActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildFood_Child" Association="CrecheModel.FK_ChildFood_Child">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="ChildFood" EntitySet="ChildFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChildFood_Food" Association="CrecheModel.FK_ChildFood_Food">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="ChildFood" EntitySet="ChildFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActivity_User" Association="CrecheModel.FK_UserActivity_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserActivity" EntitySet="UserActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Food__fk_menu__02FC7413" Association="CrecheModel.FK__Food__fk_menu__02FC7413">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Food" EntitySet="Food" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Child">
+          <Key>
+            <PropertyRef Name="KidID" />
+          </Key>
+          <Property Name="KidID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="fk_parent" Type="Int32" />
+          <NavigationProperty Name="ChildSchedule" Relationship="CrecheModel.FK__ChildSche__fk_Ch__36B12243" FromRole="Child" ToRole="ChildSchedule" />
+          <NavigationProperty Name="User" Relationship="CrecheModel.FK_Child_Utilisateur" FromRole="Child" ToRole="User" />
+          <NavigationProperty Name="ChildActivity" Relationship="CrecheModel.FK_ChildActivity_Child" FromRole="Child" ToRole="ChildActivity" />
+          <NavigationProperty Name="ChildFood" Relationship="CrecheModel.FK_ChildFood_Child" FromRole="Child" ToRole="ChildFood" />
+          <Property Name="Birthdate" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ChildSchedule">
+          <Key>
+            <PropertyRef Name="ChildScheduleID" />
+          </Key>
+          <Property Name="ChildScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fk_Child" Type="Int32" />
+          <Property Name="fk_Schedule" Type="Int32" />
+          <NavigationProperty Name="Child" Relationship="CrecheModel.FK__ChildSche__fk_Ch__36B12243" FromRole="ChildSchedule" ToRole="Child" />
+          <NavigationProperty Name="Schedule" Relationship="CrecheModel.FK__ChildSche__fk_Sc__3D5E1FD2" FromRole="ChildSchedule" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK__ChildSche__fk_Ch__36B12243">
+          <End Type="CrecheModel.Child" Role="Child" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildSchedule" Role="ChildSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildSchedule">
+              <PropertyRef Name="fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Moment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ChildSchedule" Relationship="CrecheModel.FK__ChildSche__fk_Sc__3D5E1FD2" FromRole="Schedule" ToRole="ChildSchedule" />
+        </EntityType>
+        <Association Name="FK__ChildSche__fk_Sc__3D5E1FD2">
+          <End Type="CrecheModel.Schedule" Role="Schedule" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildSchedule" Role="ChildSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Schedule">
+              <PropertyRef Name="ScheduleID" />
+            </Principal>
+            <Dependent Role="ChildSchedule">
+              <PropertyRef Name="fk_Schedule" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodID" />
+          </Key>
+          <Property Name="FoodID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ChildFood" Relationship="CrecheModel.FK_ChildFood_Food" FromRole="Food" ToRole="ChildFood" />
+          <Property Name="fk_menu" Type="Int32" />
+          <NavigationProperty Name="Menu2" Relationship="CrecheModel.FK__Food__fk_menu__02FC7413" FromRole="Food" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Child" Relationship="CrecheModel.FK_Child_Utilisateur" FromRole="User" ToRole="Child" />
+          <NavigationProperty Name="UserActivity" Relationship="CrecheModel.FK_UserActivity_User" FromRole="User" ToRole="UserActivity" />
+        </EntityType>
+        <Association Name="FK_Child_Utilisateur">
+          <End Type="CrecheModel.User" Role="User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CrecheModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="fk_parent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="ActivityID" />
+          </Key>
+          <Property Name="ActivityID" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dayDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="ChildActivity" Relationship="CrecheModel.FK_ChildActivity_Activity" FromRole="Activity" ToRole="ChildActivity" />
+          <NavigationProperty Name="UserActivity" Relationship="CrecheModel.FK_UserActivity_Activity" FromRole="Activity" ToRole="UserActivity" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="dayDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Food2" Relationship="CrecheModel.FK__Food__fk_menu__02FC7413" FromRole="Menu" ToRole="Food" />
+        </EntityType>
+        <EntityType Name="ChildActivity">
+          <Key>
+            <PropertyRef Name="ChildActivityID" />
+          </Key>
+          <Property Name="ChildActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fk_Child" Type="Int32" />
+          <Property Name="Fk_Activity" Type="Int32" />
+          <NavigationProperty Name="Activity" Relationship="CrecheModel.FK_ChildActivity_Activity" FromRole="ChildActivity" ToRole="Activity" />
+          <NavigationProperty Name="Child" Relationship="CrecheModel.FK_ChildActivity_Child" FromRole="ChildActivity" ToRole="Child" />
+        </EntityType>
+        <EntityType Name="ChildFood">
+          <Key>
+            <PropertyRef Name="ChildFoodID" />
+          </Key>
+          <Property Name="ChildFoodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fk_Child" Type="Int32" />
+          <Property Name="Fk_Food" Type="Int32" />
+          <NavigationProperty Name="Child" Relationship="CrecheModel.FK_ChildFood_Child" FromRole="ChildFood" ToRole="Child" />
+          <NavigationProperty Name="Food" Relationship="CrecheModel.FK_ChildFood_Food" FromRole="ChildFood" ToRole="Food" />
+        </EntityType>
+        <EntityType Name="UserActivity">
+          <Key>
+            <PropertyRef Name="UserActivityID" />
+          </Key>
+          <Property Name="UserActivityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fk_User" Type="Int32" />
+          <Property Name="Fk_Activity" Type="Int32" />
+          <NavigationProperty Name="Activity" Relationship="CrecheModel.FK_UserActivity_Activity" FromRole="UserActivity" ToRole="Activity" />
+          <NavigationProperty Name="User" Relationship="CrecheModel.FK_UserActivity_User" FromRole="UserActivity" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ChildActivity_Activity">
+          <End Type="CrecheModel.Activity" Role="Activity" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildActivity" Role="ChildActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="ChildActivity">
+              <PropertyRef Name="Fk_Activity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActivity_Activity">
+          <End Type="CrecheModel.Activity" Role="Activity" Multiplicity="0..1" />
+          <End Type="CrecheModel.UserActivity" Role="UserActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Activity">
+              <PropertyRef Name="ActivityID" />
+            </Principal>
+            <Dependent Role="UserActivity">
+              <PropertyRef Name="Fk_Activity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildActivity_Child">
+          <End Type="CrecheModel.Child" Role="Child" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildActivity" Role="ChildActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildActivity">
+              <PropertyRef Name="Fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildFood_Child">
+          <End Type="CrecheModel.Child" Role="Child" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildFood" Role="ChildFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="KidID" />
+            </Principal>
+            <Dependent Role="ChildFood">
+              <PropertyRef Name="Fk_Child" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChildFood_Food">
+          <End Type="CrecheModel.Food" Role="Food" Multiplicity="0..1" />
+          <End Type="CrecheModel.ChildFood" Role="ChildFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodID" />
+            </Principal>
+            <Dependent Role="ChildFood">
+              <PropertyRef Name="Fk_Food" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActivity_User">
+          <End Type="CrecheModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="CrecheModel.UserActivity" Role="UserActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserActivity">
+              <PropertyRef Name="Fk_User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Food__fk_menu__02FC7413">
+          <End Type="CrecheModel.Menu" Role="Menu" Multiplicity="0..1" />
+          <End Type="CrecheModel.Food" Role="Food" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuID" />
+            </Principal>
+            <Dependent Role="Food">
+              <PropertyRef Name="fk_menu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CrecheModelStoreContainer" CdmEntityContainer="CrecheEntities">
+          <EntitySetMapping Name="Child">
+            <EntityTypeMapping TypeName="CrecheModel.Child">
+              <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="fk_parent" ColumnName="fk_parent" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="KidID" ColumnName="KidID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChildSchedule">
+            <EntityTypeMapping TypeName="CrecheModel.ChildSchedule">
+              <MappingFragment StoreEntitySet="ChildSchedule">
+                <ScalarProperty Name="fk_Schedule" ColumnName="fk_Schedule" />
+                <ScalarProperty Name="fk_Child" ColumnName="fk_Child" />
+                <ScalarProperty Name="ChildScheduleID" ColumnName="ChildScheduleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedule">
+            <EntityTypeMapping TypeName="CrecheModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Moment" ColumnName="Moment" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food">
+            <EntityTypeMapping TypeName="CrecheModel.Food">
+              <MappingFragment StoreEntitySet="Food">
+                <ScalarProperty Name="fk_menu" ColumnName="fk_menu" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FoodID" ColumnName="FoodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="CrecheModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Activity">
+            <EntityTypeMapping TypeName="CrecheModel.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="dayDate" ColumnName="dayDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="CrecheModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="dayDate" ColumnName="dayDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChildActivity">
+            <EntityTypeMapping TypeName="CrecheModel.ChildActivity">
+              <MappingFragment StoreEntitySet="ChildActivity">
+                <ScalarProperty Name="Fk_Activity" ColumnName="Fk_Activity" />
+                <ScalarProperty Name="Fk_Child" ColumnName="Fk_Child" />
+                <ScalarProperty Name="ChildActivityID" ColumnName="ChildActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChildFood">
+            <EntityTypeMapping TypeName="CrecheModel.ChildFood">
+              <MappingFragment StoreEntitySet="ChildFood">
+                <ScalarProperty Name="Fk_Food" ColumnName="Fk_Food" />
+                <ScalarProperty Name="Fk_Child" ColumnName="Fk_Child" />
+                <ScalarProperty Name="ChildFoodID" ColumnName="ChildFoodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserActivity">
+            <EntityTypeMapping TypeName="CrecheModel.UserActivity">
+              <MappingFragment StoreEntitySet="UserActivity">
+                <ScalarProperty Name="Fk_Activity" ColumnName="Fk_Activity" />
+                <ScalarProperty Name="Fk_User" ColumnName="Fk_User" />
+                <ScalarProperty Name="UserActivityID" ColumnName="UserActivityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
